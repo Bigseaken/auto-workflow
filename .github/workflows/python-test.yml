@@ -1,10 +1,7 @@
 name: 签到
 on:
-  push:
-    branches:
-      - master
   schedule:
-      - cron: "*/5 * * * *"
+      - cron: '* * * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
