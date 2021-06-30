@@ -31,6 +31,7 @@ jobs:
         run: |
           python3 checkin.py
       - name: push
+        run: |
           git config --local user.email "withqianqian@163.com"
           git config --local user.name "withqianqian"
           git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
