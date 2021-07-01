@@ -33,10 +33,9 @@ class SspanelQd(object):
                 post_data = post_data.encode()
                 response = session.post(login_url, post_data, headers=headers, verify=False)
                 login_result = json.loads(response.text)
-                print(login_result)
-                # if login_result.get('ret') == 1:
-                #     print(self.base_url[i] + ' ' + '登陆失败')
-                #     continue
+                if login_result.get('ret') == 0:
+                    print(self.base_url[i] + ' ' + '登陆失败')
+                    continue
 
                 headers = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
