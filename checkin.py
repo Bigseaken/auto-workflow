@@ -29,7 +29,7 @@ class SspanelQd(object):
                 session = requests.session()
                 login_url = self.base_url[i] + '/auth/login'
                 post_data = 'email='+self.email[i]+'&passwd='+self.password[i]
-                post_dataz = post_data.encode()
+                # post_dataz = post_data.encode()
                 response = session.post(login_url, post_dataz, headers=headers, verify=False)
                 ret = json.loads(response.text).get('ret')
                 if ret == 1:
