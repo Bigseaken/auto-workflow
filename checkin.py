@@ -3,7 +3,6 @@ import re
 import os
 import json
 
-requests.packages.urllib3.disable_warnings()
 
 
 class SspanelQd(object):
@@ -24,28 +23,28 @@ class SspanelQd(object):
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
         try:
-            for i in range(len(self.base_url)):
+            # for i in range(len(self.base_url)):
+            i = 0
+            session = requests.session()
+            login_url = self.base_url[i] + '/auth/login'
+            post_data = 'email='+self.email[i]+'&passwd='+self.password[i]
+            post_data_z = post_data.encode()
+            response = session.post(login_url, post_data_z, headers=headers, verify=False,)
+            ret = json.loads(response.text).get('ret')
+            if ret == 1:
+                print(self.base_url[i] + ' login result=====>登陆失败 '+post_data)
+                return
+            else:
+                print(self.base_url[i] + ' login result=====>登陆成功')
 
-                session = requests.session()
-                login_url = self.base_url[i] + '/auth/login'
-                post_data = 'email='+self.email[i]+'&passwd='+self.password[i]
-                # post_dataz = post_data.encode()
-                response = session.post(login_url, post_dataz, headers=headers, verify=False)
-                ret = json.loads(response.text).get('ret')
-                if ret == 1:
-                    print(self.base_url[i] + ' login result=====>登陆失败 '+post_data)
-                    continue
-                else:
-                    print(self.base_url[i] + ' login result=====>登陆成功')
+            referer_headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+                'Referer': self.base_url[i] + '/user'
+            }
 
-                referer_headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-                    'Referer': self.base_url[i] + '/user'
-                }
-
-                response = session.post(self.base_url[i] + '/user/checkin', headers=referer_headers, verify=False)
-                msg = (response.json()).get('msg')
-                print(msg)
+            response = session.post(self.base_url[i] + '/user/checkin', headers=referer_headers, verify=False )
+            msg = (response.json()).get('msg')
+            print(msg)
 
         except Exception as e:
             msgall = '签到失败'
