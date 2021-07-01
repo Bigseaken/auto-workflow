@@ -4,7 +4,7 @@ on:
     branches:
       - main
   schedule:
-      - cron: "1 1 * * *"
+      - cron: "*/10 * * * *"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,6 +32,7 @@ jobs:
           python3 checkin.py
       - name: push
         run: |
+          echo '    ' > log.txt
           git config --local user.email "withqianqian@163.com"
           git config --local user.name "withqianqian"
           git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
