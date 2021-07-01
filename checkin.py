@@ -29,14 +29,14 @@ class SspanelQd(object):
                 session = requests.session()
                 login_url = self.base_url[i] + '/auth/login'
                 post_data = 'email='+self.email[i]+'&passwd='+self.password[i]
-                post_data = post_data.encode()
-                response = session.post(login_url, post_data, headers=headers, verify=False)
+                post_dataz = post_data.encode()
+                response = session.post(login_url, post_dataz, headers=headers, verify=False)
                 ret = json.loads(response.text).get('ret')
                 if ret == 1:
-                    print(self.base_url[i] + 'login result=====>登陆失败')
+                    print(self.base_url[i] + ' login result=====>登陆失败 '+post_data)
                     continue
                 else:
-                    print(self.base_url[i] + 'login result=====>登陆成功')
+                    print(self.base_url[i] + ' login result=====>登陆成功')
 
                 referer_headers = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
