@@ -1,6 +1,7 @@
 import requests
 import re
 import os
+import json
 
 requests.packages.urllib3.disable_warnings()
 
@@ -30,11 +31,16 @@ class SspanelQd(object):
                 post_data = 'email='+self.email[i]+'&passwd='+self.password[i]
                 post_data = post_data.encode()
                 response = session.post(login_url, post_data, headers=headers, verify=False)
-                print('login result=====>'+response.text)
+                ret = json.dumps(response.text).get('ret')
+                if ret == 1:
+                    print(self.base_url[i] + 'login result=====>登陆失败')
+                    continue
+                else:
+                    print(self.base_url[i] + 'login result=====>登陆成功')
 
                 referer_headers = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-                    'Referer': self.base_url + '/user'
+                    'Referer': self.base_url[i] + '/user'
                 }
 
                 response = session.post(self.base_url[i] + '/user/checkin', headers=referer_headers, verify=False)
