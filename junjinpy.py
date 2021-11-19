@@ -12,6 +12,9 @@ class board(object):
         self.cookies = os.environ['cookies']
 
     def checkin(self):
+        if self.cookies == '':
+            print('未设置cookies')
+            return
         headers = {
             'User-Agent': ua,
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
