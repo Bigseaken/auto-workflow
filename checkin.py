@@ -1,9 +1,9 @@
 import requests
-import re
 import os
 import json
-
+import time
 requests.packages.urllib3.disable_warnings()
+ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
 
 class SspanelQd(object):
@@ -18,6 +18,9 @@ class SspanelQd(object):
         self.password = os.environ['pwd'].split(',')
 
     def checkin(self):
+
+        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+
         msgall = '签到成功'
         try:
             for i in range(len(self.base_url)):
@@ -25,7 +28,7 @@ class SspanelQd(object):
 
                 login_url = self.base_url[i] + '/auth/login'
                 headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+                    'User-Agent': ua,
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                 }
 
@@ -38,7 +41,7 @@ class SspanelQd(object):
                     continue
 
                 headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+                    'User-Agent': ua,
                     'Referer': self.base_url[i] + '/user'
                 }
 
