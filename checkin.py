@@ -2,6 +2,7 @@ import requests
 import os
 import json
 import time
+
 requests.packages.urllib3.disable_warnings()
 ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
@@ -16,6 +17,8 @@ class SspanelQd(object):
         self.email = os.environ['user'].split(',')
 
         self.password = os.environ['pwd'].split(',')
+
+        self.dd_token = os.environ['dd_token']
 
     def checkin(self):
 
@@ -47,8 +50,18 @@ class SspanelQd(object):
 
                 response = session.post(self.base_url[i] + '/user/checkin', headers=headers, verify=False)
                 msg = (response.json()).get('msg')
-
                 print(self.base_url[i] + ' \n' + msg)
+                # 发送钉钉通知
+                if self.dd_token:
+                    url = 'https://oapi.dingtalk.com/robot/send?access_token=' + self.dd_token
+                    data = {
+                        "msgtype": "text",
+                        "text": {
+                            "content": "gui => ss panel " + msg
+                        }
+                    }
+                    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+                    requests.post(url, data=json.dumps(data), headers=headers)
 
         except Exception as e:
             msgall = '签到失败'
