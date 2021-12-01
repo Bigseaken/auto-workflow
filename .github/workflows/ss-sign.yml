@@ -28,5 +28,6 @@ jobs:
             web: ${{ secrets.WEB }}
             user: ${{ secrets.USER }}
             pwd: ${{ secrets.PWD }}
+            dd_token: ${{ secrets.dd_token }}
         run: |
           python3 checkin.py

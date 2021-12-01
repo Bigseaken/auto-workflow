@@ -13,7 +13,7 @@ class board(object):
         self.cookies = os.environ['cookies']
 
         self.dd_token = os.environ['dd_token']
-        
+
     def checkin(self):
         if self.cookies == '':
             print('未设置cookies')
