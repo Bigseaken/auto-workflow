@@ -10,7 +10,7 @@ ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko
 class board(object):
     def __init__(self):
         # 登陆需要图像验证 麻烦了
-        self.cookies = os.environ['cookies']
+        self.cookies = os.environ['COOKIES']
 
         self.dd_token = os.environ['dd_token']
 
