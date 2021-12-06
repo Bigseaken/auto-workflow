@@ -57,7 +57,7 @@ class SspanelQd(object):
                     data = {
                         "msgtype": "text",
                         "text": {
-                            "content": "gui => ss panel " + msg
+                            "content": "gui =>  " + self.base_url[i] + msg
                         }
                     }
                     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
