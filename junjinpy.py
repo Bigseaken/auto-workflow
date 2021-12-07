@@ -26,6 +26,7 @@ class board(object):
         response = requests.post('https://api.juejin.cn/growth_api/v1/check_in', data=None, headers=headers, verify=False)
         print(response.text)
         juejin_result = json.loads(response.text)
+        response.close()
         if juejin_result['err_msg'] == 'success':
             push_msg = '掘金签到成功，获取砖石：'\
                        + str(juejin_result['data']['incr_point']) \
@@ -40,6 +41,7 @@ class board(object):
         print(response.text)
         lottery_result = json.loads(response.text)
         push_msg += ' 免费抽奖：' + lottery_result['data']['lottery_name']
+        response.close()
         # 发送钉钉通知
         if self.dd_token:
             url = 'https://oapi.dingtalk.com/robot/send?access_token=' + self.dd_token
@@ -51,7 +53,7 @@ class board(object):
             }
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
             requests.post(url, data=json.dumps(data), headers=headers)
-
+            response.close()
 
 if __name__ == '__main__':
     run = board()
