@@ -23,7 +23,7 @@ class board(object):
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'cookie': self.cookies
         }
-        response = requests.post('https://api.juejin.cn/growth_api/v1/check_in', None, headers=headers, verify=False)
+        response = requests.post('https://api.juejin.cn/growth_api/v1/check_in', data=None, headers=headers, verify=False)
         print(response.text)
         juejin_result = json.loads(response.text)
         if juejin_result['err_msg'] == 'success':
@@ -35,7 +35,7 @@ class board(object):
         else:
             push_msg = '掘金签到失败'
 
-        response = requests.post('https://api.juejin.cn/growth_api/v1/lottery/draw', None, headers=headers,
+        response = requests.post('https://api.juejin.cn/growth_api/v1/lottery/draw', data=None, headers=headers,
                                  verify=False)
         print(response.text)
         lottery_result = json.loads(response.text)
