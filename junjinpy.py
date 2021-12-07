@@ -15,7 +15,6 @@ class board(object):
         self.dd_token = os.environ['dd_token']
 
     def checkin(self):
-        push_msg = ''
         if self.cookies == '':
             print('未设置cookies')
             return
@@ -26,17 +25,21 @@ class board(object):
         }
         response = requests.post('https://api.juejin.cn/growth_api/v1/check_in', None, headers=headers, verify=False)
         print(response.text)
-        juejin_Result = json.loads(response.text)
-        if juejin_Result['err_msg'] == 'success':
-            push_msg = '掘金签到成功，获取砖石：' + str(juejin_Result['data']['incr_point']) + '当前砖石总数：' + str(juejin_Result['data'][
-                'sum_point'])
+        juejin_result = json.loads(response.text)
+        if juejin_result['err_msg'] == 'success':
+            push_msg = '掘金签到成功，获取砖石：'\
+                       + str(juejin_result['data']['incr_point']) \
+                       + '当前砖石总数：' + str(juejin_result['data']['sum_point'])
             # 免费抽奖一次
 
         else:
             push_msg = '掘金签到失败'
+
         response = requests.post('https://api.juejin.cn/growth_api/v1/lottery/draw', None, headers=headers,
                                  verify=False)
-        push_msg += ' 免费抽奖：' + response.text
+        print(response.text)
+        lottery_result = json.loads(response.text)
+        push_msg += ' 免费抽奖：' + lottery_result['data']['lottery_name']
         # 发送钉钉通知
         if self.dd_token:
             url = 'https://oapi.dingtalk.com/robot/send?access_token=' + self.dd_token
