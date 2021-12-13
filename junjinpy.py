@@ -19,7 +19,9 @@ class board(object):
             print('未设置cookies')
             return
         cookie = self.cookies.split(',')
+        index = 0
         for c in cookie:
+            index += 1
             headers = {
                 'User-Agent': ua,
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -42,7 +44,7 @@ class board(object):
                                verify=False) as response:
                 print(response.text)
                 lottery_result = json.loads(response.text)
-                push_msg += ' 账号' + str(c + 1) + '免费抽奖：' + lottery_result['data']['lottery_name']
+                push_msg += ' 账号' + str(index) + '免费抽奖：' + lottery_result['data']['lottery_name']
             # 发送钉钉通知
             if self.dd_token:
                 url = 'https://oapi.dingtalk.com/robot/send?access_token=' + self.dd_token
