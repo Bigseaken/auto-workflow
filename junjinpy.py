@@ -32,7 +32,7 @@ class board(object):
                 print(response.text)
                 juejin_result = json.loads(response.text)
                 if juejin_result['err_msg'] == 'success':
-                    push_msg = '掘金账号' + str(c + 1) + '签到成功，获取砖石：' \
+                    push_msg = '掘金账号' + str(index) + '签到成功，获取砖石：' \
                                + str(juejin_result['data']['incr_point']) \
                                + '当前砖石总数：' + str(juejin_result['data']['sum_point'])
                     # 免费抽奖一次
