@@ -20,6 +20,7 @@ class board(object):
             print('未设置cookies')
             return
         cookie = self.cookies.split(',')
+
         index = 0
         for c in cookie:
             index += 1
@@ -28,6 +29,7 @@ class board(object):
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                 'cookie': c
             }
+            # 签到
             with requests.post(self.base_url + '/check_in', data=None, headers=headers,
                                verify=False) as response:
                 print(response.text)
@@ -40,24 +42,16 @@ class board(object):
 
                 else:
                     push_msg = '掘金签到失败'
-            with requests.post(self.base_url + '/lottery_history/global_big?aid=2608&uuid=6959813790385833511',
-                               data=json.dumps({'page_no': 1, 'page_size': 5}), headers=headers,
-                               verify=False) as response:
-                print('中奖名单')
-                print(response.text)
-                reward_list = json.loads(response.text)
-                history_id = reward_list['data']['lotteries'][0]['history_id']
-            with requests.post(self.base_url + '/lottery_lucky/dip_lucky?aid=2608&uuid=6959813790385833511',
-                               data=json.dumps({'lottery_history_id': history_id}), headers=headers,
-                               verify=False) as response:
-                print('沾福气')
-                print(response.text)
 
+
+
+            # 抽奖
             with requests.post(self.base_url + '/lottery/draw', data=None, headers=headers,
                                verify=False) as response:
                 print(response.text)
                 lottery_result = json.loads(response.text)
                 push_msg += ' 账号' + str(index) + '免费抽奖：' + lottery_result['data']['lottery_name']
+
             # 发送钉钉通知
             if self.dd_token:
                 url = 'https://oapi.dingtalk.com/robot/send?access_token=' + self.dd_token
